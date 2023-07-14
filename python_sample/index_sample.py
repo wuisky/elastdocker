@@ -5,9 +5,13 @@ import time
 import datetime
 from datetime import timezone
 from elasticsearch import Elasticsearch
+import os
 from ssl import create_default_context
 
-context = create_default_context(cafile="./secrets/certs/ca/ca.crt")
+script_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(script_dir)
+
+context = create_default_context(cafile="../secrets/certs/ca/ca.crt")
 es = Elasticsearch(
     'https://localhost:9200',
     ssl_context=context,
@@ -17,7 +21,7 @@ es = Elasticsearch(
 print(es.ping())
 
 doc = {
-    'author': 'kimchy',
+    'author': 'python',
     'text': 'Elasticsearch: cool. bonsai cool.',
     # 'timestamp': datetime.now(),
     # 'timestamp': datetime.datetime.fromtimestamp(time.time(), datetime.timezone.utc).isoformat('T'),
